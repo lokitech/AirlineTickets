@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Postavke";
+}
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Postavke</h2>
+            <h3>Ovdje možete očistiti bazu podataka.</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                @Ajax.ActionLink("Izbriši sve pretrage iz baze podataka", "DeleteSearches",
+                              new AjaxOptions
+                              {
+                                  HttpMethod = "POST",
+                                  OnSuccess = "OnSuccessDeleteSearches",
+                                  OnFailure = "OnFailureDeleteSearches",
+                                  OnBegin = "OnBeginDeleteSearches"
+
+                              })
+            </p>
+        </div>
+        <div class="col-md-2">
+            <div id="searchesLoaderIcon" class="loader" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                @Ajax.ActionLink("Izbriši sve aerodrome", "DeleteAirports",
+                              new AjaxOptions
+                              {
+                                  HttpMethod = "POST",
+                                  OnSuccess = "OnSuccessDeleteAirports",
+                                  OnFailure = "OnFailureDeleteAirports",
+                                  OnBegin = "OnBeginDeleteAirports"
+
+                              })
+            </p>
+        </div>
+        <div class="col-md-6">
+            <div id="airportsLoaderIcon" class="loader" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span id="message">
+
+            </span>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/options")
+}

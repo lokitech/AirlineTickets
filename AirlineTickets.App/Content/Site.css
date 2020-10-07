@@ -1,0 +1,218 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.navbar {
+    background-color: lightblue;
+}
+
+.options .col-lg-4 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.options .col-lg-12 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.options h2 {
+    font-weight: 400;
+}
+
+.options .col-lg-4 p {
+    margin-right: .75rem;
+    margin-left: .75rem;
+}
+
+.options .col-lg-12 p {
+    margin-right: .75rem;
+    margin-left: .75rem;
+}
+
+.btn-primary, .btn-secondary {
+    background-color: lightblue;
+    border-color: lightblue;
+}
+
+    .btn-primary.disabled, .btn-primary:disabled {
+        background-color: #ced4da;
+        border-color: #ced4da;
+    }
+
+/*LOADER*/
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid lightblue;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 15px;
+}
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*ICONS*/
+.icon {
+    font-size: 2em;
+    color: lightblue;
+    display: inline-block;
+    vertical-align: middle;
+}
+/*HOMEPAGE ICONS*/
+.rounded-circle {
+    background-color: lightblue;
+}
+
+
+/*PAGINATION*/
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd; /* Gray */
+            background-color: white;
+        }
+
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+ul.pagination li.active a {
+    background-color: lightblue;
+}
+
+ul.pagination li.active {
+    background-color: white;
+    color: white;
+}
+
+ul.pagination li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+
+
+/*BLUR DIV*/
+.blur {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    background-color: #ccc;
+    pointer-events: none;
+}
+
+.ui-autocomplete-term {
+    font-weight: bold;
+}
+
+#tablica {
+    border: none;
+    border-top: 1px solid #EEEEEE;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+
+#tablica > tbody > tr > td,
+#tablica > tbody > th {
+    border: 1px solid #EEEEEE;
+    border-top: none;
+    text-align: left;
+    padding: 8px;
+    color: #363D41;
+}
+
+#tablica > tbody > tr {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(9, 2fr);
+}
+
+#tablica > tbody > tr:first-child:hover {
+    cursor: default;
+    background-color: #fff;
+}
+
+#tablica > tbody > tr:hover {
+    background-color: #EEF4FD;
+}
+
+.expanded-row-content {
+    border-top: none;
+    display: block;
+    grid-column: 1/-1;
+    justify-content: flex-start;
+    color: #AEB1B3;
+    margin: 50px 200px 50px 200px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.hide-row {
+    display: none;
+}

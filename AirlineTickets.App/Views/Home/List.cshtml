@@ -1,0 +1,164 @@
+﻿@model PagedList.IPagedList<AirlineTickets.Model.FlightOfferResult>
+@using PagedList.Mvc
+
+
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table id="tablica" class="table">
+            <tr>
+                <th>
+                    Polazni aerodrom
+                </th>
+                <th>
+                    Odredišni aerodrom
+                </th>
+                <th>
+                    Datum polaska
+                </th>
+                <th>
+                    Datum povratka
+                </th>
+                <th>
+                    Razred
+                </th>
+                <th>
+                    Broj presjedanja odlazno | povratno
+                </th>
+                <th>
+                    Ukupan broj putnika
+                </th>
+                <th>
+                    Ukupna cijena
+                </th>
+                <th>
+                    Detalji
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr onClick='toggleRow(this)'>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightOfferSearch.Airport.WholeString)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightOfferSearch.Airport1.WholeString)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightOfferSearch.DepartureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightOfferSearch.ReturnDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightOfferSearch.TravelClassTranslation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightsForOffers.ToArray()[0].Flights.Count) | 
+                        @if(item.FlightsForOffers.Count > 1)
+                        {
+                            @Html.DisplayFor(modelItem => item.FlightsForOffers.ToArray()[1].Flights.Count)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightOfferSearch.TotalTravelers)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PriceForAllTravelers)  @Html.DisplayFor(modelItem => item.FlightOfferSearch.Currency)
+                    </td>
+                    <td>
+                        +
+                    </td>
+                    <td class="expanded-row-content hide-row">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Polazni let:</h5>
+                                <p>Trajanje: @item.FlightsForOffers.ElementAt(0).Duration</p>
+                                <p>Broj presjedanja: @Html.DisplayFor(modelItem => item.FlightsForOffers.ToArray()[0].Flights.Count)</p>
+                                @{
+                                    item.FlightsForOffers.ElementAt(0).Flights = item.FlightsForOffers.ElementAt(0).Flights.OrderBy(f => f.Order).ToList();
+                                }
+
+                                @foreach (var flight in item.FlightsForOffers.ElementAt(0).Flights)
+                                {
+                                    <p><strong>Let @flight.Order:</strong></p>
+                                    <p>Trajanje: @flight.Duration</p>
+                                    <p>Polijetanje: @flight.Airport.WholeString u @flight.DepartureTime.Value.TimeOfDay @flight.DepartureTime.Value.ToLongDateString()</p>
+                                    <p>Slijetanje: @flight.Airport1.WholeString u @flight.ArrivalTime.Value.TimeOfDay @flight.ArrivalTime.Value.ToLongDateString()</p>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                @if (item.FlightsForOffers.Count > 1)
+                                {
+                                    <h5>Povratni let: </h5>
+                                    <p>Trajanje: @item.FlightsForOffers.ElementAt(1).Duration</p>
+                                    <p>Broj presjedanja: @Html.DisplayFor(modelItem => item.FlightsForOffers.ToArray()[1].Flights.Count)</p>
+                                    {
+                                        item.FlightsForOffers.ElementAt(1).Flights = item.FlightsForOffers.ElementAt(1).Flights.OrderBy(f => f.Order).ToList();
+                                    }
+                                    foreach (var flight in item.FlightsForOffers.ElementAt(1).Flights)
+                                    {
+                                        <p><strong>Let @flight.Order:</strong></p>
+                                        <p>Trajanje: @flight.Duration</p>
+                                        <p>Polijetanje: @flight.Airport.WholeString u @flight.DepartureTime.Value.TimeOfDay @flight.DepartureTime.Value.ToLongDateString()</p>
+                                        <p>Slijetanje: @flight.Airport1.WholeString u @flight.ArrivalTime.Value.TimeOfDay @flight.ArrivalTime.Value.ToLongDateString()</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Putnici:</h5>
+                                <p>Broj odraslih: @Html.DisplayFor(modelItem => item.FlightOfferSearch.Adults)</p>
+                                @if (item.FlightOfferSearch.Children.HasValue)
+                                {
+                                    <p>Broj djece: @item.FlightOfferSearch.Children.Value</p>
+                                }
+                                @if (item.FlightOfferSearch.Infants.HasValue)
+                                {
+                                    <p>Broj dojenčadi: @item.FlightOfferSearch.Infants.Value</p>
+                                }
+                                <p><strong>UKUPNO: @Html.DisplayFor(modelItem => item.FlightOfferSearch.TotalTravelers)</strong></p>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center align-self-center">
+        Stranica @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) od @Model.PageCount
+    </div>
+    <div class="row justify-content-center align-self-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new
+            {
+                page,
+                sortOrder = Request.QueryString["sortOrder"],
+                originalLocationCode = Request.QueryString["originalLocationCode"],
+                originalLocation = Request.QueryString["originalLocation"],
+                destinationLocationCode = Request.QueryString["destinationLocationCode"],
+                destinationLocation = Request.QueryString["destinationLocation"],
+                departureDate = Request.QueryString["departureDate"],
+                returnDate = Request.QueryString["returnDate"],
+                adults = Request.QueryString["adults"],
+                children = Request.QueryString["children"] == "0" ? "" : Request.QueryString["children"],
+                infants = Request.QueryString["infants"] == "0" ? "" : Request.QueryString["infants"],
+                travelClass = Request.QueryString["travelClass"] == "0" ? "" : Request.QueryString["travelClass"],
+                currencyCode = Request.QueryString["currencyCode"],
+                nonStop = Request.QueryString["nonStop"] == "False" ? "" : Request.QueryString["nonStop"]
+            }),
+            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions { LiElementClasses = new string[] { "page-item" } }, new AjaxOptions()
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "listFlights",
+                OnSuccess = "OnSortSuccess",
+                OnBegin = "OnSearchBegin",
+                OnFailure = "OnSearchFail"
+            }))
+    </div>
+</div>

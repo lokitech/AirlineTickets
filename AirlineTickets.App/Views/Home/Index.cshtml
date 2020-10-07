@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Letovi";
+}
+<div class="container" style="margin-top:30px">
+    @using (Ajax.BeginForm("Index", "Home",
+        new
+        {
+            sortOrder = Request.QueryString["sortOrder"],
+            originalLocationCode = Request.QueryString["originalLocationCode"],
+            originalLocation = Request.QueryString["originalLocation"],
+            destinationLocationCode = Request.QueryString["destinationLocationCode"],
+            destinationLocation = Request.QueryString["destinationLocation"],
+            departureDate = Request.QueryString["departureDate"],
+            returnDate = Request.QueryString["returnDate"],
+            adults = Request.QueryString["adults"],
+            children = Request.QueryString["children"],
+            infants = Request.QueryString["infants"],
+            travelClass = Request.QueryString["travelClass"],
+            currencyCode = Request.QueryString["currencyCode"],
+            nonStop = Request.QueryString["nonStop"],
+            page = ViewBag.PageNumber
+        },
+        new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "listFlights",
+            OnSuccess = "OnSearchSuccess",
+            OnFailure = "OnSearchFail",
+            OnBegin = "OnSearchBegin"
+        }))
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Pregled letova</h2>
+                <p>Pretraži:</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="originalLocationCode" class="col-sm-4 col-form-label">Mjesto polijetanja: </label>
+                        @Html.TextBox("originalLocation", null, new { @class = "form-control textbox searchInputs" })
+                        @Html.Hidden("originalLocationCode")
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="destinationLocationCode" class="col-sm-4 col-form-label">Mjesto slijetanja:</label>
+                        @Html.TextBox("destinationLocation", null, new { @class = "form-control textbox searchInputs" })
+                        @Html.Hidden("destinationLocationCode")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="departureDate" class="col-sm-4 col-form-label">Datum polaska:</label>
+                        @Html.TextBox("departureDate", null, new { @class = "form-control date-picker searchInputs" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="returnDate" class="col-sm-4 col-form-label">Datum povratka:</label>
+                        @Html.TextBox("returnDate", null, new { @class = "form-control date-picker searchInputs" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="nonStop" class="col-sm-3 col-form-label">Bez presjedanja:</label>
+                        @Html.CheckBox("nonStop", new { @class = "form-control col-sm-1 searchInputs" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="currencyCode" class="col-sm-4 col-form-label">Valuta:</label>
+                        @Html.DropDownList("currencyCode",
+                           EnumHelper.GetSelectList(typeof(AirlineTickets.Model.CurrencyCodeEnum)),
+                           new { @class = "form-control searchInputs" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Putnici</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="adults" class="col-sm-6 col-form-label">Odrasli:</label>
+                        @Html.DropDownList("adults", null, new { @class = "form-control col-sm-4 searchInputs" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="children" class="col-sm-6 col-form-label">Djeca:</label>
+                        @Html.DropDownList("children", null, new { @class = "form-control col-sm-4 searchInputs" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="infants" class="col-sm-6 col-form-label">Dojenčad:</label>
+                        @Html.DropDownList("infants", null, new { @class = "form-control col-sm-4 searchInputs" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="travelClass" class="col-sm-4 col-form-label">Klasa:</label>
+                        @Html.DropDownList("travelClass",
+                           EnumHelper.GetSelectList(typeof(AirlineTickets.Model.TravelClassEnum)),
+                           new { @class = "form-control searchInputs" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    @Ajax.ActionLink("Resetiraj pretrage i filtere", "Index",
+                                  new
+                                  {
+                                      sortOrder = "",
+                                      originalLocationCode = "",
+                                      originalLocation = "",
+                                      destinationLocationCode = "",
+                                      destinationLocation = "",
+                                      departureDate = "",
+                                      returnDate = "",
+                                      adults = "",
+                                      children = "",
+                                      infants = "",
+                                      travelClass = "",
+                                      currencyCode = "",
+                                      nonStop = "",
+                                      page = ViewBag.PageNumber
+                                  },
+                                  new AjaxOptions
+                                  {
+                                      HttpMethod = "GET",
+                                      InsertionMode = InsertionMode.Replace,
+                                      UpdateTargetId = "listFlights",
+                                      OnSuccess = "EmptyTextFields"
+
+                                  })
+                </p>
+            </div>
+            <div class="col-md-4">
+                <input class="btn btn-primary searchInputs" style="margin:2em;" type="submit" value="Pretraži" />
+                <div id="flightsLoaderIcon" class="loader" style="display:none;"></div>
+                <span id="flightsFailIcon" class="icon" style="display:none;">
+                    <i class="fa fa-times"></i>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="flightErrorMessage">
+
+                </span>
+            </div>
+        </div>
+    }
+</div>
+<div id="listFlights">
+    @{
+        Html.RenderAction("List", "Home");
+    }
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/main")
+}

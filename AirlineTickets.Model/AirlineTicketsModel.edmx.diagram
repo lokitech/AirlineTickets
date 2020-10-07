@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ec73764ad5804b8abb8eeb8bebf09d61" Name="Diagram1">
+        <EntityTypeShape EntityType="AirlineTicketsDBModel.Airport" Width="1.5" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="AirlineTicketsDBModel.FlightOfferResult" Width="1.5" PointX="5.25" PointY="2" />
+        <EntityTypeShape EntityType="AirlineTicketsDBModel.FlightOfferSearch" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="AirlineTicketsDBModel.Flight" Width="1.5" PointX="9.75" PointY="1.375" />
+        <EntityTypeShape EntityType="AirlineTicketsDBModel.FlightsForOffer" Width="1.5" PointX="7.5" PointY="1.875" />
+        <EntityTypeShape EntityType="AirlineTicketsDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="5.75" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_FlightOffers_Airports" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_FlightOffers_Airports1" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_Flights_Airports" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_Flights_Airports1" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_FlightOfferResults_FlightOfferSearches" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_FlightsForOffer_FlightOfferResults" />
+        <AssociationConnector Association="AirlineTicketsDBModel.FK_Flights_FlightsForOffer" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
